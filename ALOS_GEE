@@ -1,0 +1,13 @@
+GEE codes to download ALOS-2:
+
+var region=ee.Geometry.Rectangle([-55.7, -2.1, -53.7,  -4.1]);
+var point=ee.Geometry.Point([-54.7,-3]);
+var alos2 = ee.ImageCollection('JAXA/ALOS/PALSAR-2/Level2_2/ScanSAR').select(['HV']).filterBounds(region).filterDate('2018-09-01','2018-11-01');
+var imageList = alos2.toList(100);
+var image = ee.Image(imageList.get(6));
+Map.addLayer(image.select(['HV']), {min: 0, max: 8000}, 'HV polarization');
+Map.centerObject(image);
+Export.image.toDrive({image:image,description:'ALOS-2-1007',scale:25,crs:'EPSG:5530',folder:'Geo4Dev',region:region});
+
+
+Link: https://code.earthengine.google.com/d84b721af30c109b33aa4859bc236b68
